@@ -1,0 +1,325 @@
+﻿@model IEnumerable<Vw_MyOrder>
+@{
+    ViewData["Title"] = "MyOrders";
+    Layout = "~/Views/Shared/DefaultLayout.cshtml";
+
+    // Siparişleri GUID'e göre grupla
+    var orderGroups = Model.GroupBy(x => x.OrderGroupGUID).OrderByDescending(g => g.First().OrderDate);
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+
+
+<div class="orders-page">
+    <div class="container">
+        <h2 class="page-title">📦 Siparişlerim</h2>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-orders">
+                <svg width="64" height="64" fill="none" viewBox="0 0 24 24">
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#ddd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="9" cy="21" r="1" fill="#ddd" />
+                    <circle cx="20" cy="21" r="1" fill="#ddd" />
+                </svg>
+                <p>Henüz siparişiniz bulunmuyor.</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var group in orderGroups)
+            {
+                var items = group.ToList();
+                var firstItem = items.First();
+                var totalPrice = items.Sum(i => i.UnitPrice * i.Quantity);
+                var itemCount = items.Sum(i => i.Quantity);
+
+                <div class="order-card">
+
+                    <!-- ── Başlık ── -->
+                    <div class="order-card-header">
+                        <div class="order-meta">
+                            <span class="order-badge">Sipariş</span>
+                            <span class="order-no">
+                                Sipariş No: <span>@firstItem.OrderGroupGUID.ToString().Substring(0, 8).ToUpper()...</span>
+                            </span>
+                            <span class="order-date">🗓 @firstItem.OrderDate.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <span class="order-total-badge">
+                            Toplam: @totalPrice.ToString("C2", new System.Globalization.CultureInfo("tr-TR"))
+                        </span>
+                    </div>
+
+                    <!-- ── Ürünler ── -->
+                    <div class="order-items">
+                        @foreach (var item in items)
+                        {
+                            <div class="order-item">
+                                <img class="order-item-img"
+                                     src="/img/resimler/@item.PhotoPath"
+                                     alt="@item.ProductName"
+                                     onerror="this.src='/img/no-image.png'" />
+
+                                <div class="order-item-info">
+                                    <div class="order-item-name">@item.ProductName</div>
+                                    <div class="order-item-qty">
+                                        Adet: <strong>@item.Quantity</strong> &nbsp;|&nbsp;
+                                        Birim Fiyat: <strong>@item.UnitPrice.ToString("C2", new System.Globalization.CultureInfo("tr-TR"))</strong>
+                                    </div>
+                                </div>
+
+                                <div class="order-item-price">
+                                    @((item.UnitPrice * item.Quantity).ToString("C2", new System.Globalization.CultureInfo("tr-TR")))
+                                </div>
+
+                                <a class="order-item-detail-btn" href="/Home/Details/@item.ProductID">
+                                    Ürüne Git →
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- ── Alt Bar ── -->
+                    <div class="order-card-footer">
+                        <span class="item-count">
+                            <strong>@items.Count</strong> farklı ürün &nbsp;·&nbsp;
+                            Toplam <strong>@itemCount</strong> adet
+                        </span>
+                        <span style="font-size:12px; color:#ccc;">
+                            Sipariş Ref: @firstItem.OrderGroupGUID
+                        </span>
+                    </div>
+
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+
+    .orders-page {
+        font-family: 'Nunito', sans-serif;
+        background: #f3f3f8;
+        min-height: 100vh;
+        padding: 32px 0 60px;
+    }
+
+        .orders-page h2.page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+
+    /* ── Sipariş Kartı ── */
+    .order-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,.07);
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: box-shadow .2s;
+    }
+
+        .order-card:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,.12);
+        }
+
+    /* Kart Başlığı */
+    .order-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid #f0f0f5;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .order-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .order-badge {
+        background: #f27a1a;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 20px;
+        letter-spacing: .4px;
+        text-transform: uppercase;
+    }
+
+    .order-no {
+        font-size: 13px;
+        font-weight: 700;
+        color: #555;
+    }
+
+        .order-no span {
+            color: #1a1a2e;
+        }
+
+    .order-date {
+        font-size: 12px;
+        color: #999;
+        font-weight: 600;
+    }
+
+    .order-total-badge {
+        background: #fff5eb;
+        border: 1.5px solid #f27a1a;
+        color: #f27a1a;
+        font-size: 15px;
+        font-weight: 800;
+        padding: 6px 18px;
+        border-radius: 30px;
+        white-space: nowrap;
+    }
+
+    /* Ürün Satırı */
+    .order-items {
+        padding: 0 8px;
+    }
+
+    .order-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        border-bottom: 1px dashed #f0f0f5;
+        transition: background .15s;
+    }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item:hover {
+            background: #fafafa;
+            border-radius: 12px;
+        }
+
+    .order-item-img {
+        width: 80px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        flex-shrink: 0;
+        background: #f7f7f7;
+    }
+
+    .order-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .order-item-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .order-item-qty {
+        font-size: 12px;
+        color: #888;
+        font-weight: 600;
+    }
+
+        .order-item-qty strong {
+            color: #555;
+        }
+
+    .order-item-price {
+        font-size: 16px;
+        font-weight: 800;
+        color: #f27a1a;
+        white-space: nowrap;
+    }
+
+    .order-item-detail-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #f27a1a;
+        text-decoration: none;
+        background: #fff5eb;
+        padding: 6px 14px;
+        border-radius: 20px;
+        transition: background .15s, transform .15s;
+        white-space: nowrap;
+    }
+
+        .order-item-detail-btn:hover {
+            background: #f27a1a;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+    /* Kart Alt Satırı */
+    .order-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 24px;
+        background: #fafafa;
+        border-top: 1px solid #f0f0f5;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+        .order-card-footer .item-count {
+            font-size: 13px;
+            color: #888;
+            font-weight: 600;
+        }
+
+            .order-card-footer .item-count strong {
+                color: #1a1a2e;
+            }
+
+    /* Boş durum */
+    .empty-orders {
+        text-align: center;
+        padding: 80px 20px;
+        color: #bbb;
+    }
+
+        .empty-orders svg {
+            margin-bottom: 20px;
+        }
+
+        .empty-orders p {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+    @@media (max-width: 600px) {
+        .order-card-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .order-item-detail-btn {
+            display: none;
+        }
+
+        .order-item-price {
+            font-size: 14px;
+        }
+    }
+</style>

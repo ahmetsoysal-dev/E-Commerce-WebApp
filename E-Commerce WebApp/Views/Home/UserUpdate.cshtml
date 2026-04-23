@@ -1,0 +1,131 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "UserUpdate";
+    Layout = "~/Views/Shared/DefaultLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-4 col-md-3 col-sm-3"></div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="cart_totals">
+            <h2>İLETİŞİM BİLGİLERİNİZ</h2>
+
+            <form asp-action="UserUpdate" asp-controller="Home" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- Hidden ID -->
+                <input type="hidden" asp-for="UserID" />
+
+                <div class="total_table">
+                    <table class="table-responsive" style="border:2px solid black;text-align:center;width:100%">
+                        <tbody>
+
+                            <tr class="shipping">
+                                <th>AD SOYAD</th>
+                                <td>
+                                    <input asp-for="NameSurname" class="form-control" />
+                                    <span asp-validation-for="NameSurname" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="shipping">
+                                <th>EMAİL</th>
+                                <td>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="shipping">
+                                <th>TELEFON</th>
+                                <td>
+                                    <input asp-for="Telephone" class="form-control"
+                                           placeholder="(0532) 123 45 67"
+                                           maxlength="15"
+                                           inputmode="numeric"
+                                           id="phoneInput"
+                                           autocomplete="off"
+                                           type="tel" />
+                                    <span asp-validation-for="Telephone" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="shipping">
+                                <th>ADRES</th>
+                                <td>
+                                    <textarea asp-for="InvoicesAddress"
+                                              class="form-control"
+                                              rows="3"></textarea>
+                                    <span asp-validation-for="InvoicesAddress" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="shipping">
+                                <th></th>
+                                <td class="continue-link">
+                                    <button type="submit" class="update_cart">
+                                        Güncelle
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var phoneInput = document.getElementById('phoneInput');
+
+    function formatPhone(digits) {
+        if (digits.length > 11) digits = digits.slice(0, 11);
+
+        var result = '';
+        if (digits.length === 0) return result;
+
+        result = '(' + digits.slice(0, 4);
+        if (digits.length > 4) result += ') ' + digits.slice(4, 7);
+        if (digits.length > 7) result += ' ' + digits.slice(7, 9);
+        if (digits.length > 9) result += ' ' + digits.slice(9, 11);
+
+        return result;
+    }
+
+    phoneInput.addEventListener('keydown', function (e) {
+        var allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+        // Sadece rakam ve özel tuşlara izin ver
+        if (!allowed.includes(e.key) && !/^\d$/.test(e.key)) {
+            e.preventDefault();
+            return;
+        }
+
+        var digits = phoneInput.value.replace(/\D/g, '');
+
+        if (e.key === 'Backspace') {
+            e.preventDefault();
+            digits = digits.slice(0, -1);
+            phoneInput.value = formatPhone(digits);
+            return;
+        }
+
+        if (e.key === 'Delete') {
+            e.preventDefault();
+            digits = '';
+            phoneInput.value = '';
+            return;
+        }
+
+        if (/^\d$/.test(e.key)) {
+            e.preventDefault();
+            digits += e.key;
+            phoneInput.value = formatPhone(digits);
+        }
+    });
+</script>

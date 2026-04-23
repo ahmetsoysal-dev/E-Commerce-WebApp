@@ -1,0 +1,76 @@
+﻿@model Supplier
+
+@{
+	ViewData["Title"] = "SupplierCreate";
+	Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="row" style="margin-top:40px;">
+
+	<div class="col-md-2"></div>
+
+	<div class="col-md-8">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet box purple ">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-gift"></i> Horizontal Form Height Sizing
+				</div>
+				<div class="tools">
+					<a href="" class="collapse">
+					</a>
+					<a href="#portlet-config" data-toggle="modal" class="config">
+					</a>
+					<a href="" class="reload">
+					</a>
+					<a href="" class="remove">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form class="form-horizontal" role="form" action="/Admin/SupplierCreate" method="post">
+					@Html.AntiForgeryToken()
+					<div class="form-body">
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">
+								@Html.DisplayNameFor(model => model.BrandName)
+							</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control input-lg" placeholder="" asp-for="BrandName">
+									<span asp-validation-for="BrandName" class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-3 control-label">
+									@Html.DisplayNameFor(model => model.PhotoPath)
+								</label>
+								<div class="col-md-9">
+									<input type="file" class="form-control input-lg" required asp-for="PhotoPath">
+										<span asp-validation-for="PhotoPath" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">
+										@Html.DisplayNameFor(model => model.Active)
+									</label>
+									<div class="col-md-9">
+										<input asp-for="Active" class="form-control input-sm" checked>
+											<span asp-validation-for="Active" class="text-danger"></span>
+										</div>
+									</div>
+
+								</div>
+								<div class="form-actions right1">
+									<a asp-action="SupplierIndex" class="btn btn-primary">MARKA LİSTESİ</a>
+									<button type="submit" class="btn green">KAYDET</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!-- END SAMPLE FORM PORTLET-->
+				</div>
+			</div>

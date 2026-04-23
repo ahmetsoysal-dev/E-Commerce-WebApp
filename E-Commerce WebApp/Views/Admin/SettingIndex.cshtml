@@ -1,0 +1,98 @@
+﻿@model Setting
+
+@{
+    ViewData["Title"] = "SettingIndex";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<br />
+<br />
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+
+    <div class="col-md-12">
+
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>AYAR LİSTESİ
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config">
+                    </a>
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-dark table-hover">
+                        <thead style="background-color:grey;color:white;">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SettingID)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Telephone)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Address)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MainpageCount)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubpageCount)
+                                </th>
+
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => Model.SettingID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.Telephone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.MainpageCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.SubpageCount)
+                                </td>
+
+                                <td style="text-align:center;">
+                                    <a asp-action="SettingEdit" asp-route-id="@Model.SettingID" class="btn btn-primary">GÜNCELLE</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+<!-- END CONTENT -->

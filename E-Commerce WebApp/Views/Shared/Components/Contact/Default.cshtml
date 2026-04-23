@@ -1,0 +1,57 @@
+﻿@model Setting
+
+<!-- Footer Top Area Start -->
+<section id="sp-bottom-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sp-column">
+                    <div class="sp-module">
+                        <h3 class="sp-module-title">
+                            <span>İLETİŞİM</span>
+                        </h3>
+
+                        <div class="sp-module-content">
+                            <div class="custom">
+                                <div class="t-bottom-content" style="display:flex; gap:150px; color:white;">
+
+                                    <span>
+                                        <strong>Adres:</strong>
+                                        @await Component.InvokeAsync("Address")
+                                    </span>
+
+                                    <span>
+                                        <strong>Telefon:</strong>
+                                        @Model.Telephone
+                                    </span>
+
+                                    <span>
+                                        <strong>E-posta:</strong>
+                                        @Model.Email
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer Top Area End -->
+
+<footer id="sp-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    © 2026
+                    <a href="http://www.iakademi.com" target="_blank">İAKADEMİ</a>
+                    — Tüm hakları İakademi46 Grubu’na aittir.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,95 @@
+﻿@*table_basic.html -> Simple Table*@
+
+@model IEnumerable<Status>
+
+@{
+    ViewData["Title"] = "StatusIndex";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+
+        <!-- BEGIN CONTENT -->
+        <p>
+            <a asp-action="StatusCreate" asp-controller="Admin" class="btn btn-success">YENİ STATÜ</a>
+        </p>
+
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>STATÜ LİSTESİ
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config">
+                    </a>
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-dark table-hover">
+                        <thead style="background-color:grey;color:white;">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StatusID)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StatusName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Active)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => item.StatusID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.StatusName)
+                                    </td>
+                                    @if (item.Active)
+                                    {
+                                        <td style="background-color:green;color:white; height:25px;width:60px;">
+                                            <label>AKTİF</label>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="background-color: red; color: white; height: 25px; width: 60px;">
+                                            <label>PASİF</label>
+                                        </td>
+                                    }
+                                    <td style="text-align:center;">
+                                        <a asp-action="StatusEdit" asp-route-id="@item.StatusID" class="btn btn-primary">GÜNCELLE</a>
+                                        <a asp-action="StatusDelete" asp-route-id="@item.StatusID" class="btn btn-danger">SİL</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+<!-- END CONTENT -->
