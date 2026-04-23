@@ -21,6 +21,7 @@ Hava durumu
 Nöbetçi eczaneler
 Kültür-sanat / tiyatro etkinlikleri
 🔄 Proje genelinde dinamik ve sürdürülebilir yapı
+
 🧰 Kullanılan Teknolojiler
 C#
 ASP.NET Core MVC
@@ -31,6 +32,7 @@ View
 HTML5, CSS3, Bootstrap
 JavaScript, jQuery, AJAX
 Web API
+
 🗂️ Proje Yapısı
 Controllers – İş mantığı ve yönlendirme
 Models – Veri modelleri ve ViewModel yapıları
