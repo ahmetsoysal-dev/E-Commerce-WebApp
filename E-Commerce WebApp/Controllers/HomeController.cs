@@ -163,11 +163,6 @@ namespace E_Commerce_WebApp.Controllers
             // Highlighted kolonunun değerini arttırdım (öne çıkanlar)
             ProductRepository.Highlighted_Increase(id);
 
-            //Product product = productRepository.Get(id);
-            // ORM = ado.net , efcore , linq , dapper
-            //efcore
-            //mpm.ProductDetails = context.Products?.FirstOrDefault(p => p.ProductID == id);
-
             // linq  -4 nolu ürünün bütün kolon bilgileri elimde
             mpm.ProductDetails = (from p in context.Products where p.ProductID == id select p).FirstOrDefault();
 
@@ -422,49 +417,6 @@ namespace E_Commerce_WebApp.Controllers
             string kredikartyil = frm["kredikartyil"];
             string kredikartcvv = frm["kredikartcvv"];
 
-            //buradan sonraki kodlar , payu = iyzico
-
-            //payu dan gelen örnek kodlar
-
-            /* AŞAGIDAKİ KODLAR GERÇEK HAYATTA AÇILALAK
-
-            NameValueCollection data = new NameValueCollection();
-            string url = "https://www.sedattefci.com/backref";
-
-            data.Add("BACK_REF", "url");
-            data.Add("CC_CVV", kredikartcvs);
-            data.Add("CC_NUMBER", kredikartno);
-            data.Add("EXP_MONTH", kredikartay);
-            data.Add("EXP_YEAR", "20" + kredikartyil);
-
-            var deger = "";
-
-            foreach (var item in data)
-            {
-                var value = item as string;
-                var byteCount = Encoding.UTF8.GetByteCount(data.Get(value));
-                deger += byteCount + data.Get(value);
-            }
-
-            var signatureKey = "size verilen SECRET_KEY buraya yazılacak";
-
-            var hash = HashWithSignature(deger, signatureKey);
-
-            data.Add("ORDER_HASH", hash);
-
-            var x = POSTFormPAYU("https://secure.payu.com.tr/order/....", data);
-
-            //sanal kart
-            if (x.Contains("<STATUS>SUCCESS</STATUS>") && x.Contains("<RETURN_CODE>3DS_ENROLLED</RETURN_CODE>"))
-            {
-                //sanal kart (debit kart) ile alış veriş yaptı , bankadan onay aldı
-            }
-            else
-            {
-                //gerçek kart ile alış veriş yaptı , bankadan onay aldı
-            }
-            */
-
             return RedirectToAction("backref");
         }
 
@@ -472,9 +424,7 @@ namespace E_Commerce_WebApp.Controllers
         public static string OrderGroupGUID = "";
         public IActionResult backref()
         {
-            //sipariş tablosuna kaydet
-            //sepetim cookie sinden sepeti temizleyecegiz
-            //e-fatura olustur metodunu cagır
+            
             var cookieOptions = new CookieOptions();
             var cookie = Request.Cookies["sepetim"];
             if (cookie != null)
@@ -484,9 +434,6 @@ namespace E_Commerce_WebApp.Controllers
 
                 cookieOptions.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Delete("sepetim");
-                //tarayıcıdan sepeti sil
-                //cls_User.Send_Sms(OrderGroupGUID);
-                //cls_User.Send_Email(OrderGroupGUID);
             }
             return RedirectToAction("ConfirmPage");
         }
