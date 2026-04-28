@@ -22,35 +22,35 @@
                             <h2>BİLGİLERİNİZİ GİRİNİZ</h2>
                             <ul class="form-list">
                                 <li>
-                                    <label class="required"><em>*</em>AD SOYAD</label>
+                                    <label class="required"><em>*</em>@Html.DisplayNameFor(Model=>Model.NameSurname)</label>
                                     <div class="input-box" id="com-form-login-username">
                                         <input type="text" class="inputbox" asp-for="NameSurname">
                                             <span asp-validation-for="NameSurname" class="text-danger"></span>
                                         </div>
                                     </li>
                                     <li>
-                                        <label class="required"><em>*</em>EMail</label>
+                                        <label class="required"><em>*</em>@Html.DisplayNameFor(Model=>Model.Email)</label>
                                         <div class="input-box" id="com-form-login-username">
                                             <input type="text" class="inputbox" asp-for="Email">
                                                 <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
                                         </li>
                                         <li>
-                                            <label class="required"><em>*</em>Şifre</label>
+                                            <label class="required"><em>*</em>@Html.DisplayNameFor(Model=>Model.Password)</label>
                                             <div class="input-box" id="com-form-login-username">
                                                 <input type="password" class="inputbox" asp-for="Password">
                                                     <span asp-validation-for="Password" class="text-danger"></span>
                                                 </div>
                                             </li>
                                             <li>
-                                                <label class="required"><em>*</em>Telefon</label>
+                                                <label class="required"><em>*</em>@Html.DisplayNameFor(Model=>Model.Telephone)</label>
                                                 <div class="input-box" id="com-form-login-username">
                                                     <input type="text" class="inputbox" asp-for="Telephone">
                                                         <span asp-validation-for="NameSurname" class="text-danger"></span>
                                                     </div>
                                                 </li>
                                                 <li>
-                                                    <label class="required"><em>*</em>Fatura Adresi</label>
+                                                    <label class="required"><em>*</em>@Html.DisplayNameFor(Model=>Model.InvoicesAddress)</label>
                                                     <div class="input-box" id="com-form-login-username">
                                                         <textarea type="text" class="inputbox" asp-for="InvoicesAddress" cols="61" rows="5"></textarea>
                                                     </div>

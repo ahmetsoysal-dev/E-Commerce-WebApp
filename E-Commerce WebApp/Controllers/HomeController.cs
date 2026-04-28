@@ -17,15 +17,17 @@ namespace E_Commerce_WebApp.Controllers
     {
 
         Context context = new Context();
-        UserRepository userRepository = new UserRepository();
         ProductRepository productRepository = new ProductRepository();
         CategoryRepository categoryRepository = new CategoryRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
         OrderRepository orderRepository = new OrderRepository();
         MainPageModel mpm = new MainPageModel();
 
-        public HomeController()
+        private readonly UserRepository userRepository;
+
+        public HomeController(UserRepository userRepository)
         {
+            this.userRepository = userRepository;
             productRepository.mainpagecount = context.Settings.FirstOrDefault(s => s.SettingID == 1).MainpageCount;
             productRepository.subpagecount = context.Settings.FirstOrDefault(s => s.SettingID == 1).SubpageCount;
         }
@@ -266,26 +268,21 @@ namespace E_Commerce_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register([Bind("NameSurname,Email,Password,Telephone,InvoicesAddress")] User user)
+        public async Task<IActionResult> Register([Bind("NameSurname,Email,Password,Telephone,InvoicesAddress")] User user)
         {
             if (ModelState.IsValid)
             {
-                bool answer = userRepository.LoginControl(user.Email!);
+                bool exists = userRepository.LoginControl(user.Email!);
 
-                if (answer == false)
+                if (!exists)
                 {
-                    bool answer2 = userRepository.Add(user);
+                    var (success, message) = await userRepository.Add(user);
+                    TempData["Message"] = message;
 
-                    if (answer2)
-                    {
-                        TempData["Message"] = "Başarıyla Kaydedildi";
+                    if (success)
                         return RedirectToAction("Index");
-                    }
                     else
-                    {
-                        TempData["Message"] = "Kayıt yapılamadı";
                         return RedirectToAction("Register");
-                    }
                 }
                 else
                 {
@@ -293,7 +290,7 @@ namespace E_Commerce_WebApp.Controllers
                     return RedirectToAction("Register");
                 }
             }
-            return View(); // HttpGet e gider
+            return View();
         }
 
         [HttpGet]

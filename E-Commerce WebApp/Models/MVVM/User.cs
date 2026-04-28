@@ -11,7 +11,7 @@ namespace E_Commerce_WebApp.Models.MVVM
 
         [StringLength(100, ErrorMessage = "En fazla 100 Karakter")]
         [Required(ErrorMessage = "Kullanıcı Adı Zorunlu Alan")]
-        [DisplayName("Kullanıcı Adı")]
+        [DisplayName("Ad Soyad")]
         public string? NameSurname { get; set; }
 
         [StringLength(100, ErrorMessage = "En fazla 100 Karakter")]
@@ -23,7 +23,7 @@ namespace E_Commerce_WebApp.Models.MVVM
         [StringLength(100, ErrorMessage = "En fazla 100 Karakter")]
         [Required(ErrorMessage = "Şifre Zorunlu Alan")]
         [DataType(DataType.Password)]
-        [DisplayName("ŞİFRE")]
+        [DisplayName("Şifre")]
         public string? Password { get; set; }
 
         [DisplayName("Telefon")]

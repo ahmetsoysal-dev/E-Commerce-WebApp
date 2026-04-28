@@ -1,3 +1,4 @@
+using E_Commerce_WebApp.Models.Concrete;
 using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,10 @@ builder.Services.AddSession(option =>
 {
     option.IdleTimeout = TimeSpan.FromMinutes(10);
 });
+
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<EmailValidationService>();
 
 //biz ekledik.alert türkce karakter
 builder.Services.AddWebEncoders(o => {

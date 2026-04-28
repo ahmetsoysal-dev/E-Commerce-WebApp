@@ -16,17 +16,17 @@
                                 <div class="t-bottom-content" style="display:flex; gap:150px; color:white;">
 
                                     <span>
-                                        <strong>Adres:</strong>
+                                        <strong>@Html.DisplayNameFor(model => model.Address):</strong>
                                         @await Component.InvokeAsync("Address")
                                     </span>
 
                                     <span>
-                                        <strong>Telefon:</strong>
+                                        <strong>@Html.DisplayNameFor(model => model.Telephone):</strong>
                                         @Model.Telephone
                                     </span>
 
                                     <span>
-                                        <strong>E-posta:</strong>
+                                        <strong>@Html.DisplayNameFor(model => model.Email):</strong>
                                         @Model.Email
                                     </span>
 
@@ -48,8 +48,8 @@
             <div class="col-md-6">
                 <p>
                     © 2026
-                    <a href="http://www.iakademi.com" target="_blank">İAKADEMİ</a>
-                    — Tüm hakları İakademi46 Grubu’na aittir.
+                    <a href="http://www.iakademi.com" target="_blank">SOYSAL</a>
+                    — Tüm hakları Ahmet Soysal'a aittir.
                 </p>
             </div>
         </div>

@@ -8,6 +8,15 @@ namespace E_Commerce_WebApp.Models.Concrete
     {
         Context context = new Context();
 
+        private readonly EmailService _emailService;
+        private readonly EmailValidationService _emailValidationService;
+
+        public UserRepository(EmailService emailService, EmailValidationService emailValidationService)
+        {
+            _emailService = emailService;
+            _emailValidationService = emailValidationService;
+        }
+
         public bool LoginControl(string Email)
         {
             // ORM = ado.net (select,insert,update,delete)
@@ -20,18 +29,29 @@ namespace E_Commerce_WebApp.Models.Concrete
             return true;
         }
 
-        public bool Add(User user)
+        // MX doğrulama + kayıt + hoşgeldin maili
+        public async Task<(bool success, string message)> Add(User user)
         {
             try
             {
+                // 1. MX kaydı kontrolü — domain gerçek mi?
+                bool isValidDomain = await _emailValidationService.IsEmailDomainValidAsync(user.Email!);
+                if (!isValidDomain)
+                    return (false, "Geçersiz veya var olmayan bir e-posta adresi.");
+
+                // 2. Veritabanına kaydet
                 user.Active = true;
                 context.Users?.Add(user);
                 context.SaveChanges();
-                return true;
+
+                // 3. Hoşgeldin maili gönder
+                await _emailService.SendWelcomeEmailAsync(user.Email!, user.NameSurname!);
+
+                return (true, "Başarıyla Kaydedildi");
             }
             catch (Exception)
             {
-                return false;
+                return (false, "Kayıt yapılamadı");
             }
         }
 
